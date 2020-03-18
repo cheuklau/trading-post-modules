@@ -17,4 +17,5 @@ resource "aws_db_instance" "mtgtradingpostdb" {
   name                 = "mtgtradingpostdb"
   username             = "postgres"
   password             = "password"
+  skip_final_snapshot  = "true"
 }
