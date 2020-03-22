@@ -113,3 +113,12 @@ resource "aws_security_group_rule" "elb_allow_all_outbound" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.elb.id
 }
+
+resource "aws_route53_record" "www" {
+  name = "mtgtradingpost.com"
+  type = "A"
+  alias {
+    name                   = "${aws_elb.mtgtradingpost.dns_name}"
+    evaluate_target_health = true
+  }
+}
