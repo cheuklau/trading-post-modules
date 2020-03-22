@@ -7,7 +7,7 @@ output "elb_dns_name" {
 }
 
 output "asg_name" {
-  value = aws_autoscaling_group.mtgtradingpst.name
+  value = aws_autoscaling_group.mtgtradingpost.name
 }
 
 output "asg_security_group_id" {

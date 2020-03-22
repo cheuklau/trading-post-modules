@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "mtgtradingpost" {
   user_data       = <<-EOF
               #!/bin/bash
               cd /var/www/FlaskApp/
-              sudo sed -i "s/create_engine('sqlite:\/\/\/catalog.db')/create_engine('postgresql:\/\/postgres:password@${data.terraform_remote_state.aws_db_instance.address}\/mtgtradingpostdb')/g" `find . -maxdepth 1 -type f`
+              sudo sed -i "s/create_engine('sqlite:\/\/\/catalog.db')/create_engine('postgresql:\/\/postgres:password@${data.terraform_remote_state.rds.outputs.address}\/mtgtradingpostdb')/g" `find . -maxdepth 1 -type f`
               sudo python database_setup.py
               sudo python populate_db.py
               sudo a2ensite FlaskApp
@@ -42,12 +42,8 @@ resource "aws_launch_configuration" "mtgtradingpost" {
   }
 }
 
-data "terraform_remote_state" "aws_db_instance" {
+data "terraform_remote_state" "rds" {
   backend = "remote"
-  filter {
-    name   = "name"
-    values = ["mtgtradingpostdb"]
-  }
 }
 
 data "aws_ami" "mtgtradingpost" {
@@ -114,11 +110,16 @@ resource "aws_security_group_rule" "elb_allow_all_outbound" {
   security_group_id = aws_security_group.elb.id
 }
 
+resource "aws_route53_zone" "main" {
+  name = "mtgtradingpost.com"
+}
+
 resource "aws_route53_record" "www" {
+  zone_id = "$aws_route53_zoone.main.zone_id"
   name = "mtgtradingpost.com"
   type = "A"
   alias {
-    name                   = "${aws_elb.mtgtradingpost.dns_name}"
+    name                   = "$aws_elb.mtgtradingpost.dns_name"
     evaluate_target_health = true
   }
 }
