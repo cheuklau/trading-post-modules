@@ -120,7 +120,7 @@ resource "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = "$aws_route53_zoone.main.zone_id"
+  zone_id = "$aws_route53_zone.main.zone_id"
   name = "mtgtradingpost.com"
   type = "A"
   alias {
