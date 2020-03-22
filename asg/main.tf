@@ -119,7 +119,7 @@ resource "aws_route53_record" "www" {
   depends_on = [
     aws_elb.mtgtradingpost
   ]
-  zone_id = "$var.hosted_zone_id"
+  zone_id = "Z3KIODODXJIPVV"
   name = "mtgtradingpost.com"
   type = "A"
   alias {
