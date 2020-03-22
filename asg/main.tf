@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "mtgtradingpost" {
   key_name        = "trading-post"
   user_data       = <<-EOF
               #!/bin/bash
-              cd /var/www/FlaskApp/FlaskApp
+              cd /var/www/FlaskApp/FlaskApp/
               sudo sed -i "s/create_engine('sqlite:\/\/\/catalog.db')/create_engine('postgresql:\/\/postgres:password@${data.terraform_remote_state.rds.outputs.address}\/mtgtradingpostdb')/g" `find . -maxdepth 1 -type f`
               sudo a2ensite FlaskApp
               sudo service apache2 restart
@@ -68,9 +68,17 @@ resource "aws_security_group_rule" "asg_allow_http_inbound_from_elb" {
   from_port = var.server_port
   to_port   = var.server_port
   protocol  = "tcp"
-  # cidr_blocks       = ["0.0.0.0/0"]
   security_group_id        = aws_security_group.asg.id
   source_security_group_id = aws_security_group.elb.id
+}
+
+resource "aws_security_group_rule" "asg_allow_all_outbound" {
+  type      = "egress"
+  from_port = 0
+  to_port   = 0
+  protocol  = "-1"
+  cidr_blocks        = ["0.0.0.0/0"]
+  security_group_id  = aws_security_group.asg.id
 }
 
 resource "aws_elb" "mtgtradingpost" {
