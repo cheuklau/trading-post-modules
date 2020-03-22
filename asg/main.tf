@@ -44,7 +44,11 @@ resource "aws_launch_configuration" "mtgtradingpost" {
 
 data "terraform_remote_state" "rds" {
   backend = "s3"
-  bucket = "mtgtradingpost-terraform-state"
+  config = {
+    bucket = "mtgtradingpost-terraform-state"
+    key = "rds/terraform.tfstate"
+    region = "us-west-2"
+  }
 }
 
 data "aws_ami" "mtgtradingpost" {
