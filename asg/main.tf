@@ -28,6 +28,7 @@ resource "aws_launch_configuration" "mtgtradingpost" {
   image_id        = data.aws_ami.mtgtradingpost.id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg.id]
+  key_name        = "trading-post"
   user_data       = <<-EOF
               #!/bin/bash
               cd /var/www/FlaskApp/
