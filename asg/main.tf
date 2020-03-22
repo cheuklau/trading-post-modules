@@ -116,8 +116,10 @@ resource "aws_security_group_rule" "elb_allow_all_outbound" {
 }
 
 resource "aws_route53_record" "www" {
-  depends_on = aws_elb.mtgtradingpost
-  zone_id = "${var.hosted_zone_id}"
+  depends_on = [
+    aws_elb.mtgtradingpost
+  ]
+  zone_id = "$var.hosted_zone_id"
   name = "mtgtradingpost.com"
   type = "A"
   alias {
