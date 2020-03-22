@@ -22,3 +22,8 @@ variable "elb_port" {
   description = "Port number ELB should listen on for HTTP requests"
   type        = number
 }
+
+variable "hosted_zone_id" {
+  description = "Hosted zone ID"
+  type        = string
+}
