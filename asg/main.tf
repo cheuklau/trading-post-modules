@@ -44,6 +44,9 @@ resource "aws_launch_configuration" "mtgtradingpost" {
 
 data "terraform_remote_state" "rds" {
   backend = "remote"
+  config = {
+    organization = "hashicorp"
+  }
 }
 
 data "aws_ami" "mtgtradingpost" {
