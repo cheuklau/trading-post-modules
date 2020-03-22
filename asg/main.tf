@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "mtgtradingpost" {
   key_name        = "trading-post"
   user_data       = <<-EOF
               #!/bin/bash
-              cd /var/www/FlaskApp/
+              cd /var/www/FlaskApp/FlaskApp
               sudo sed -i "s/create_engine('sqlite:\/\/\/catalog.db')/create_engine('postgresql:\/\/postgres:password@${data.terraform_remote_state.rds.outputs.address}\/mtgtradingpostdb')/g" `find . -maxdepth 1 -type f`
               sudo python database_setup.py
               sudo python populate_db.py
