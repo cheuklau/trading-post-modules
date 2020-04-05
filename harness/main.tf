@@ -17,11 +17,12 @@ resource "aws_autoscaling_group" "harness" {
   max_size                  = var.max_size
   force_delete              = true
   initial_lifecycle_hook {
-    name                 = "harness"
-    default_result       = "CONTINUE"
-    heartbeat_timeout    = 2000
-    lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
-    role_arn             = "arn:aws:iam::${var.account_id}:role/ec2-role-to-access-s3"
+    name                    = "harness"
+    default_result          = "CONTINUE"
+    heartbeat_timeout       = 2000
+    lifecycle_transition    = "autoscaling:EC2_INSTANCE_LAUNCHING"
+    role_arn                = "arn:aws:iam::${var.account_id}:role/ec2-role-to-access-s3"
+    notification_target_arn = ""
   }
   tag {
     key                 = "Name"
