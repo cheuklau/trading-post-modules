@@ -34,7 +34,7 @@ resource "aws_launch_configuration" "harness" {
   image_id        = var.ami_id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg.id]
-  key_name        = "harness"
+  key_name        = "trading-post"
   user_data       = <<-EOF
               #!/bin/bash
               aws s3 cp s3://mtgtradingpost-harness/harness-delegate.tar .
