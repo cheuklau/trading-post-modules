@@ -16,14 +16,6 @@ resource "aws_autoscaling_group" "harness" {
   min_size                  = var.min_size
   max_size                  = var.max_size
   force_delete              = true
-  initial_lifecycle_hook {
-    name                    = "harness"
-    default_result          = "CONTINUE"
-    heartbeat_timeout       = 2000
-    lifecycle_transition    = "autoscaling:EC2_INSTANCE_LAUNCHING"
-    role_arn                = "arn:aws:iam::${var.account_id}:role/ec2-role-to-access-s3"
-    notification_target_arn = ""
-  }
   tag {
     key                 = "Name"
     value               = "harness"
@@ -32,10 +24,11 @@ resource "aws_autoscaling_group" "harness" {
 }
 
 resource "aws_launch_configuration" "harness" {
-  image_id        = var.ami_id
-  instance_type   = var.instance_type
-  security_groups = [aws_security_group.asg.id]
-  key_name        = "trading-post"
+  image_id             = var.ami_id
+  instance_type        = var.instance_type
+  security_groups      = [aws_security_group.asg.id]
+  key_name             = "trading-post"
+  iam_instance_profile = "ec2-role-to-access-s3"
   user_data       = <<-EOF
               #!/bin/bash
               aws s3 cp s3://mtgtradingpost-harness/harness-delegate.tar .
