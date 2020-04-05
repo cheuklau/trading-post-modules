@@ -41,6 +41,7 @@ resource "aws_launch_configuration" "harness" {
               tar -xvf harness-delegate.tar
               cd harness-delegate
               ./start.sh
+              EOF
   lifecycle {
     create_before_destroy = true
   }
