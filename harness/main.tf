@@ -29,7 +29,7 @@ resource "aws_launch_configuration" "harness" {
   security_groups      = [aws_security_group.asg.id]
   key_name             = "trading-post"
   iam_instance_profile = "ec2-role-to-access-s3"
-  user_data       = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               aws s3 cp s3://mtgtradingpost-harness/harness-delegate.tar .
               tar -xvf harness-delegate.tar

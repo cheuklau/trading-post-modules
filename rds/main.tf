@@ -13,7 +13,7 @@ resource "aws_db_instance" "mtgtradingpostdb" {
   storage_type         = "gp2"
   engine               = "postgres"
   engine_version       = "9.5.19"
-  instance_class       = "db.t2.micro"
+  instance_class       = "db.t2.medium"
   name                 = "mtgtradingpostdb"
   username             = "postgres"
   password             = "password"
